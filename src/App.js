@@ -6,25 +6,57 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 function App() {
   const [rate, setRate] = useState(['CAD', 'IDR', 'JPY', 'CHF', 'EUR', 'USD']);
-  const [state, setstate] = useState([]);
+  // const [buy, setBuy] = useState([001.7434])
+  const [data, setData] = useState({});
   const [loading, setloading] = useState(true);
+
+  const rateItem =rate.map((item) =>( {
+    rate: item,
+    ExchangeRate: parseFloat(data[item]),
+    
+  }))
+  
+
+
   useEffect(() => {
     getData();
   }, []);
 
   const getData = async () => {
-    await Axios.get("http://api.exchangeratesapi.io/v1/latest?access_key=18cf0cc8c3d1cb752ec2e885a38bc774").then(
-      res => {
-        setloading(false);
-        console.log(res.data)
-        setstate(
-          rate.map(row => ({
-            rate: row,
-          }))
-        );
-      }
-    );
+    try {
+      const { data } = await Axios.get("http://api.exchangeratesapi.io/v1/latest?access_key=18cf0cc8c3d1cb752ec2e885a38bc774")
+      setloading(false);
+      console.log(data.rates)
+      setData(data.rates)
+    }
+    catch(error){
+      console.log(error);
+    }
   };
+
+  const tableData = 
+    rateItem
+  
+    
+  
+  // {
+  //   rate: "hi",
+  //   WeBuy: "dads",
+  //   exChangeRate: "Dadsa",
+  //   WeSell: "fsdf"
+  // },
+  // {
+  //   rate: "hi",
+  //   WeBuy: "dads",
+  //   exChangeRate: "Dadsa",
+  //   WeSell: "fsdf"
+  // },
+  // {
+  //   rate: "hi",
+  //   WeBuy: "dads",
+  //   ExchangeRate: "Dadsa",
+  //   WeSell: "fsdf"
+  // }
 
   const columns = [
     {
@@ -56,7 +88,7 @@ function App() {
       ) : (
         <Table
           columns={columns}
-          dataSource={state}
+          dataSource={tableData}
         />
       )}
     </div>
