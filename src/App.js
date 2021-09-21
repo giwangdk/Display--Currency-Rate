@@ -4,18 +4,11 @@ import './App.css';
 import { Table } from "antd";
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
+import currencies from './data/data'
+
 function App() {
-  const [rate, setRate] = useState(['CAD', 'IDR', 'JPY', 'CHF', 'EUR', 'USD']);
-  // const [buy, setBuy] = useState([001.7434])
   const [data, setData] = useState({});
   const [loading, setloading] = useState(true);
-
-  const rateItem =rate.map((item) =>( {
-    rate: item,
-    ExchangeRate: parseFloat(data[item]),
-    
-  }))
-  
 
 
   useEffect(() => {
@@ -34,29 +27,16 @@ function App() {
     }
   };
 
-  const tableData = 
-    rateItem
+
+  const tableData =
+    currencies.map(({ currency, buy }) => ({
+    rate:  currency,
+    ExchangeRate: parseFloat(data[currency]),
+    WeBuy: buy,
+    WeSell : buy * parseFloat(data[currency])
+  }))
   
-    
-  
-  // {
-  //   rate: "hi",
-  //   WeBuy: "dads",
-  //   exChangeRate: "Dadsa",
-  //   WeSell: "fsdf"
-  // },
-  // {
-  //   rate: "hi",
-  //   WeBuy: "dads",
-  //   exChangeRate: "Dadsa",
-  //   WeSell: "fsdf"
-  // },
-  // {
-  //   rate: "hi",
-  //   WeBuy: "dads",
-  //   ExchangeRate: "Dadsa",
-  //   WeSell: "fsdf"
-  // }
+
 
   const columns = [
     {
@@ -80,15 +60,18 @@ function App() {
       width: 150
     }
   ];
+  
 
   return (
     <div className="App">
+      <h1>Display Rate Currency</h1>
       {loading ? (
         "Loading"
       ) : (
         <Table
           columns={columns}
           dataSource={tableData}
+          className= "table"
         />
       )}
     </div>
