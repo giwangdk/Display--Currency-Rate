@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import './App.css';
 import { Table } from "antd";
-import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+
 
 import currencies from './data/data'
 
@@ -71,7 +71,7 @@ function App() {
         <Table
           columns={columns}
           dataSource={tableData}
-          className= "table"
+          style={{borderRadius:"20"}}
         />
       )}
     </div>
