@@ -32,8 +32,8 @@ function App() {
     currencies.map(({ currency, buy }) => ({
     rate:  currency,
     ExchangeRate: parseFloat(data[currency]),
-    WeBuy: buy,
-    WeSell : buy * parseFloat(data[currency])
+    WeBuy: parseFloat(data[currency]) + ((Math.floor(Math.random() * 4) + 1 ) / 100 *  parseFloat(data[currency])),
+    WeSell :  parseFloat(data[currency]) - ((Math.floor(Math.random() * 4) + 1 ) /100 *  parseFloat(data[currency]))
   }))
   
 
